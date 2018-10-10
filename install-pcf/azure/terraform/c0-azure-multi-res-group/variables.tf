@@ -48,4 +48,3 @@ variable "ert_subnet_id" {}
 variable "azure_multi_resgroup_network" {}
 variable "azure_multi_resgroup_pcf" {}
 variable "om_disk_size_in_gb" {}
-

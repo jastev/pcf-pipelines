@@ -343,6 +343,20 @@ cf_properties=$(
         ".properties.system_blobstore.external_gcs.access_key": { "value": $gcp_storage_access_key },
         ".properties.system_blobstore.external_gcs.secret_key": { "value": { "secret": $gcp_storage_secret_key } }
       }
+      elif $iaas == "azure" then
+      {
+        ".properties.system_blobstore": { "value": "external_azure" },
+        ".properties.system_blobstore.external_azure.buildpacks_container": { "value": "\($terraform_prefix)-buildpacks" },
+        ".properties.system_blobstore.external_azure.droplets_container": { "value": "\($terraform_prefix)-droplets" },
+        ".properties.system_blobstore.external_azure.packages_container": { "value": "\($terraform_prefix)-packages" },
+        ".properties.system_blobstore.external_azure.resources_container": { "value": "\($terraform_prefix)-resources" },
+        ".properties.system_blobstore.external_azure.account_name": { "value": "foo" },
+        ".properties.system_blobstore.external_azure.access_key": { "value": { "secret": "foo" } },
+        ".properties.system_blobstore.external_azure.environment": { "value": "AzureCloud" },
+        ".properties.system_blobstore.external_azure.enable_bbr": { "value": "false" },
+        ".properties.system_blobstore.external_azure.restore_from_account_name": { "value": "bar" },
+        ".properties.system_blobstore.external_azure.restore_from_access_key": { "value": { "secret": "bar" } }
+      }
     else
       .
     end

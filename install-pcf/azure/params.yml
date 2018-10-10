@@ -130,7 +130,7 @@ haproxy_backend_ca:
 haproxy_forward_tls: enable
 
 # The lb value can be obtained by prepending "web-lb" with "azure_terraform_prefix". For example, if your "azure_terraform_prefix" is "test", then the "ha_proxy_lb_name" is "test-web-lb".
-ha_proxy_lb_name: CHANGEME 
+ha_proxy_lb_name: CHANGEME
 
 # Choose between "Basic" and "Standard"
 azure_lb_sku: "Standard"
@@ -160,6 +160,12 @@ syslog_adapter_instances: 3
 syslog_scheduler_instances: 2
 tcp_router_instances: 0
 uaa_instances: 2
+
+# Whether or not to use the Azure MySQL service. When this value == 1, all
+# other mysql options are ignored.
+mysql_paas_enable: 0
+mysql_paas_admin_username: CHANGEME
+mysql_paas_admin_password: CHANGEME
 
 # Whether or not the ERT VMs are internet connected.
 internet_connected: false

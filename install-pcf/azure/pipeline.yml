@@ -365,7 +365,7 @@ jobs:
       params: {globs: []}
 
   - task: configure-ert
-    file: pcf-pipelines/tasks/config-ert/task.yml
+    file: pcf-pipelines/tasks/configure-ert/task.yml
     params:
       IAAS: azure
       OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}

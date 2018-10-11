@@ -9,10 +9,10 @@ variable "env_short_name" {
   description = "Used for creating storage accounts. Must be a-z only, no longer than 10 characters"
 }
 
-variable "subscription_id" {}
-variable "client_id" {}
-variable "client_secret" {}
-variable "tenant_id" {}
+variable "arm_subscription_id" {}
+variable "arm_client_id" {}
+variable "arm_client_secret" {}
+variable "arm_tenant_id" {}
 variable "location" {}
 
 variable "azure_terraform_vnet_cidr" {}
@@ -37,3 +37,8 @@ variable "azure_resources_container" {}
 variable "om_disk_size_in_gb" {}
 variable "azure_opsman_priv_ip" {}
 variable "azure_lb_sku" {}
+variable "terraform_azure_storage_access_key" {}
+variable "terraform_azure_storage_account_name" {}
+variable "terraform_azure_storage_container_name" {
+  default = "terraformstate"
+}

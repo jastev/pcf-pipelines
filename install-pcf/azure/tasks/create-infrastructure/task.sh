@@ -46,13 +46,13 @@ echo "==========================================================================
 echo "Executing Terraform Plan ..."
 echo "=============================================================================================="
 
-terraform init "pcf-pipelines/install-pcf/azure/terraform/${AZURE_PCF_TERRAFORM_TEMPLATE}"
+terraform init "pcf-pipelines/install-pcf/azure/terraform/${AZURE_PCF_TERRAFORM_TEMPLATE}" -backend=true -backend-config="storage_account_name=${TERRAFORM_AZURE_STORAGE_ACCOUNT_NAME}" -backend-config="container_name=${TERRAFORM_AZURE_STORAGE_CONTAINER_NAME}" -backend-config="key=${TERRAFORM_AZURE_STATEFILE_NAME}" -backend-config="access_key=${TERRAFORM_AZURE_STORAGE_ACCESS_KEY}"
 
 terraform plan \
-  -var "subscription_id=${AZURE_SUBSCRIPTION_ID}" \
-  -var "client_id=${AZURE_CLIENT_ID}" \
-  -var "client_secret=${AZURE_CLIENT_SECRET}" \
-  -var "tenant_id=${AZURE_TENANT_ID}" \
+  -var "arm_subscription_id=${AZURE_SUBSCRIPTION_ID}" \
+  -var "arm_client_id=${AZURE_CLIENT_ID}" \
+  -var "arm_client_secret=${AZURE_CLIENT_SECRET}" \
+  -var "arm_tenant_id=${AZURE_TENANT_ID}" \
   -var "location=${AZURE_REGION}" \
   -var "env_name=${AZURE_TERRAFORM_PREFIX}" \
   -var "env_short_name=${ENV_SHORT_NAME}" \
@@ -61,6 +61,8 @@ terraform plan \
   -var "azure_terraform_subnet_ert_cidr=${AZURE_TERRAFORM_SUBNET_ERT_CIDR}" \
   -var "azure_terraform_subnet_services1_cidr=${AZURE_TERRAFORM_SUBNET_SERVICES1_CIDR}" \
   -var "azure_terraform_subnet_dynamic_services_cidr=${AZURE_TERRAFORM_SUBNET_DYNAMIC_SERVICES_CIDR}" \
+  -var "terraform_azure_storage_container_name"=${TERRAFORM_AZURE_STORAGE_CONTAINER_NAME} \
+  -var "terraform_azure_storage_access_key"=${TERRAFORM_AZURE_STORAGE_ACCESS_KEY} \ 
   -var "ert_subnet_id=${ERT_SUBNET}" \
   -var "pcf_ert_domain=${PCF_ERT_DOMAIN}" \
   -var "system_domain=${SYSTEM_DOMAIN}" \
@@ -71,7 +73,7 @@ terraform plan \
   -var "azure_multi_resgroup_network=${AZURE_MULTI_RESGROUP_NETWORK}" \
   -var "azure_multi_resgroup_pcf=${AZURE_MULTI_RESGROUP_PCF}" \
   -var "azure_opsman_priv_ip=${AZURE_TERRAFORM_OPSMAN_PRIV_IP}" \
-  -var "azure_storage_account_name=${AZURE_STORAGE_ACCOUNT_NAME}" \
+  -var "terraform_azure_storage_account_name"=${TERRAFORM_AZURE_STORAGE_ACCOUNT_NAME} \
   -var "azure_buildpacks_container=${AZURE_BUILDPACKS_CONTAINER}" \
   -var "azure_droplets_container=${AZURE_DROPLETS_CONTAINER}" \
   -var "azure_packages_container=${AZURE_PACKAGES_CONTAINER}" \
@@ -79,7 +81,6 @@ terraform plan \
   -var "om_disk_size_in_gb=${PCF_OPSMAN_DISK_SIZE_IN_GB}" \
   -var "azure_lb_sku"=${AZURE_LB_SKU}
   -out terraform.tfplan \
-  -state terraform-state/terraform.tfstate \
   "pcf-pipelines/install-pcf/azure/terraform/${AZURE_PCF_TERRAFORM_TEMPLATE}"
 
 echo "=============================================================================================="
@@ -87,5 +88,4 @@ echo "Executing Terraform Apply ..."
 echo "=============================================================================================="
 
 terraform apply \
-  -state-out terraform-state-output/terraform.tfstate \
   terraform.tfplan

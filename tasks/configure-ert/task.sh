@@ -353,9 +353,6 @@ cf_properties=$(
         ".properties.system_blobstore.external_azure.account_name": { "value": "foo" },
         ".properties.system_blobstore.external_azure.access_key": { "value": { "secret": "foo" } },
         ".properties.system_blobstore.external_azure.environment": { "value": "AzureCloud" },
-        ".properties.system_blobstore.external_azure.enable_bbr": { "value": "false" },
-        ".properties.system_blobstore.external_azure.restore_from_account_name": { "value": "bar" },
-        ".properties.system_blobstore.external_azure.restore_from_access_key": { "value": { "secret": "bar" } }
       }
     else
       .

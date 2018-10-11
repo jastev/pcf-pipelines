@@ -3,15 +3,17 @@ set -e
 
 # Copy base template with no clobber if not using the base template
 if [[ ! ${AZURE_PCF_TERRAFORM_TEMPLATE} == "c0-azure-base" ]]; then
-  cp -rn pcf-pipelines/install-pcf/azure/terraform/c0-azure-base/* pcf-pipelines/install-pcf/azure/terraform/${AZURE_PCF_TERRAFORM_TEMPLATE}/
+	cp -rn pcf-pipelines/install-pcf/azure/terraform/c0-azure-base/* pcf-pipelines/install-pcf/azure/terraform/${AZURE_PCF_TERRAFORM_TEMPLATE}/
 fi
 
 # Get ert subnet if multi-resgroup
-az login --service-principal -u ${AZURE_CLIENT_ID} -p ${AZURE_CLIENT_SECRET} --tenant ${AZURE_TENANT_ID}
-az account set --subscription ${AZURE_SUBSCRIPTION_ID}
-ERT_SUBNET_CMD="az network vnet subnet list -g network-core --vnet-name vnet-pcf --output json | jq '.[] | select(.name == \"ert\") | .id' | tr -d '\"'"
-ERT_SUBNET=$(eval ${ERT_SUBNET_CMD})
-echo "Found SubnetID=${ERT_SUBNET}"
+if [ -z "${AZURE_MULTI_RESGROUP_NETWORK}" ]; then
+	az login --service-principal -u ${AZURE_CLIENT_ID} -p ${AZURE_CLIENT_SECRET} --tenant ${AZURE_TENANT_ID}
+	az account set --subscription ${AZURE_SUBSCRIPTION_ID}
+	ERT_SUBNET_CMD="az network vnet subnet list -g network-core --vnet-name vnet-pcf --output json | jq '.[] | select(.name == \"ert\") | .id' | tr -d '\"'"
+	ERT_SUBNET=$(eval ${ERT_SUBNET_CMD})
+	echo "Found SubnetID=${ERT_SUBNET}"
+fi
 
 echo "=============================================================================================="
 echo "Collecting Terraform Variables from Deployed Azure Objects ...."
@@ -29,17 +31,17 @@ ENV_SHORT_NAME=$(echo ${ENV_SHORT_NAME:0:10})
 ##########################################################
 
 if [[ ${PCF_SSH_KEY_PUB} == 'generate' ]]; then
-  echo "Generating SSH keys for Opsman"
-  ssh-keygen -t rsa -f opsman -C ubuntu -q -P ""
-  PCF_SSH_KEY_PUB="$(cat opsman.pub)"
-  PCF_SSH_KEY_PRIV="$(cat opsman)"
-  echo "******************************"
-  echo "******************************"
-  echo "pcf_ssh_key_pub = ${PCF_SSH_KEY_PUB}"
-  echo "******************************"
-  echo "pcf_ssh_key_priv = ${PCF_SSH_KEY_PRIV}"
-  echo "******************************"
-  echo "******************************"
+	echo "Generating SSH keys for Opsman"
+	ssh-keygen -t rsa -f opsman -C ubuntu -q -P ""
+	PCF_SSH_KEY_PUB="$(cat opsman.pub)"
+	PCF_SSH_KEY_PRIV="$(cat opsman)"
+	echo "******************************"
+	echo "******************************"
+	echo "pcf_ssh_key_pub = ${PCF_SSH_KEY_PUB}"
+	echo "******************************"
+	echo "pcf_ssh_key_priv = ${PCF_SSH_KEY_PRIV}"
+	echo "******************************"
+	echo "******************************"
 fi
 
 echo "=============================================================================================="
@@ -79,7 +81,7 @@ terraform plan \
   -var "azure_packages_container=${AZURE_PACKAGES_CONTAINER}" \
   -var "azure_resources_container=${AZURE_RESOURCES_CONTAINER}" \
   -var "om_disk_size_in_gb=${PCF_OPSMAN_DISK_SIZE_IN_GB}" \
-  -var "azure_lb_sku"=${AZURE_LB_SKU}
+  -var "azure_lb_sku"=${AZURE_LB_SKU} \
   -out terraform.tfplan \
   "pcf-pipelines/install-pcf/azure/terraform/${AZURE_PCF_TERRAFORM_TEMPLATE}"
 
@@ -87,5 +89,4 @@ echo "==========================================================================
 echo "Executing Terraform Apply ..."
 echo "=============================================================================================="
 
-terraform apply \
-  terraform.tfplan
+terraform apply terraform.tfplan

@@ -273,3 +273,13 @@ tcp_routing_ports:                      # A comma-separated list of ports and hy
 
 # Optional PEM-encoded certificates to add to BOSH VMs
 trusted_certificates:
+
+# Optional Azure Active Directory configuration
+enable_aad_opsman: false
+aad_opsman_tenantid: CHANGEME # GUID of the Azure AD tenant
+aad_opsman_appid: CHANGEME # GUID of the Azure AD enterprise app with SAML SSO enabled
+aad_opsman_admin_groupid: CHANGEME # Object Id (GUID) of the Azure AD group for opsman admins 
+
+enable_aad_ert: false 
+aad_ert_appid: CHANGEME
+aad_ert_tenantid: CHANGEME

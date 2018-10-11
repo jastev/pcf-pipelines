@@ -221,6 +221,10 @@ jobs:
         OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}
         PCF_OPSMAN_ADMIN: {{opsman_admin_username}}
         PCF_OPSMAN_ADMIN_PASSWORD: {{opsman_admin_password}}
+        ENABLE_OPSMAN_AAD: {{enable_opsman_aad}}
+        OPSMAN_AAD_TENANTID: {{opsman_aad_tenantid}}
+        OPSMAN_AAD_APPID: {{opsman_aad_appid}}
+        OPSMAN_AAD_ADMIN_GROUPID: {{opsman_aad_admin_groupid}}
 
 ###########################
 ## Job - Config-Director ##

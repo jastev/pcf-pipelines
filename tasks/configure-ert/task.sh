@@ -60,6 +60,8 @@ if isPopulated "${CREDUB_ENCRYPTION_KEY_NAME3}"; then
 fi
 credhub_encryption_keys_json="[$credhub_encryption_keys_json]"
 
+db_type="external"
+
 if [[ "${pcf_iaas}" == "aws" ]]; then
   if [[ ${POE_SSL_NAME1} == "" || ${POE_SSL_NAME1} == "null" ]]; then
     domains=(
@@ -120,6 +122,9 @@ elif [[ "${pcf_iaas}" == "gcp" ]]; then
       }
     }
   ]"
+  elif [[ "${pcf_iaas}" == "azure" ]]; then
+    db_type="internal"
+  fi
 fi
 
 cf_network=$(
@@ -256,7 +261,7 @@ cf_properties=$(
       ".properties.container_networking_interface_plugin.silk.network_cidr": { "value": $container_networking_nw_cidr },
       ".properties.route_services.enable.ignore_ssl_cert_verification": { "value": true },
       ".properties.security_acknowledgement": { "value": $security_acknowledgement },
-      ".properties.system_database": { "value": "external" },
+      ".properties.system_database": { "value": $db_type },
       ".properties.system_database.external.port": { "value": "3306" },
       ".properties.system_database.external.host": { "value": $db_host },
       ".properties.system_database.external.app_usage_service_username": { "value": $db_app_usage_service_username },

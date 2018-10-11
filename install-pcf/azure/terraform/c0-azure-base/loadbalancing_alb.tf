@@ -42,6 +42,7 @@ resource "azurerm_lb" "ssh-proxy" {
     name                 = "frontendip"
     public_ip_address_id = "${azurerm_public_ip.ssh-proxy-lb-public-ip.id}"
   }
+  depends_on = ["azurerm_public_ip.ssh-proxy-lb-public-ip"]
 }
 
 ////////////////////////////////

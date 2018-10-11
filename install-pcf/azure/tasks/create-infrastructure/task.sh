@@ -1,27 +1,20 @@
 #!/bin/bash
 set -e
 
-function get_subnet_list() {
-  NETWORK_LIST=$(az network vnet subnet list -g network-core --vnet-name vnet-pcf --output json | jq '.[] | select(.name == "ert") | .id' | tr -d '\"')
-  if [ -z "$NETWORK_LIST" ]; then
-    echo "ERROR: Got empty network list"
-    exit 1
-  else
-    return "${NETWORK_LIST}"
-  fi
-}
-
 # Copy base template with no clobber if not using the base template
 if [[ ! ${AZURE_PCF_TERRAFORM_TEMPLATE} == "c0-azure-base" ]]; then
 	cp -rn pcf-pipelines/install-pcf/azure/terraform/c0-azure-base/* pcf-pipelines/install-pcf/azure/terraform/${AZURE_PCF_TERRAFORM_TEMPLATE}/
 fi
 
 # Get ert subnet if multi-resgroup
-az login --service-principal -u ${AZURE_CLIENT_ID} -p ${AZURE_CLIENT_SECRET} --tenant ${AZURE_TENANT_ID}
-az account set --subscription ${AZURE_SUBSCRIPTION_ID}
-ERT_SUBNET_CMD=get_subnet_list
-ERT_SUBNET=$(eval ${ERT_SUBNET_CMD})
-echo "Found SubnetID=${ERT_SUBNET}"
+if [ -z "${AZURE_MULTI_RESGROUP_NETWORK}" ]; 
+then
+	az login --service-principal -u ${AZURE_CLIENT_ID} -p ${AZURE_CLIENT_SECRET} --tenant ${AZURE_TENANT_ID}
+	az account set --subscription ${AZURE_SUBSCRIPTION_ID}
+	ERT_SUBNET_CMD=get_subnet_list
+	ERT_SUBNET=$(eval ${ERT_SUBNET_CMD})
+	echo "Found SubnetID=${ERT_SUBNET}"
+fi
 
 echo "=============================================================================================="
 echo "Collecting Terraform Variables from Deployed Azure Objects ...."

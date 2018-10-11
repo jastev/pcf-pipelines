@@ -170,6 +170,7 @@ jobs:
       AZURE_CLIENT_SECRET: {{azure_client_secret}}
       AZURE_REGION: {{azure_region}}
       AZURE_TERRAFORM_PREFIX: {{azure_terraform_prefix}}
+      terraform_prefix: {{azure_terraform_prefix}}
       AZURE_VM_ADMIN: {{azure_vm_admin}}
       PCF_ERT_DOMAIN: {{pcf_ert_domain}}
       SYSTEM_DOMAIN: {{system_domain}}
@@ -368,6 +369,8 @@ jobs:
     file: pcf-pipelines/tasks/configure-ert/task.yml
     params:
       IAAS: azure
+      AZURE_STORAGE_ACCOUNT: {{terraform_azure_storage_account_name}}
+      AZURE_STORAGE_KEY: {{terraform_azure_storage_access_key}}
       OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}
       OPS_MGR_USR: {{opsman_admin_username}}
       OPS_MGR_PWD: {{opsman_admin_password}}

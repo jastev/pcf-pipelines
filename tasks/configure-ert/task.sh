@@ -242,6 +242,8 @@ cf_properties=$(
     --argjson credhub_encryption_keys "$credhub_encryption_keys_json" \
     --argjson networking_poe_ssl_certs "$networking_poe_ssl_certs_json" \
     --arg container_networking_nw_cidr "$CONTAINER_NETWORKING_NW_CIDR" \
+    --arg azure_storage_account "$AZURE_STORAGE_ACCOUNT" \
+    --arg azure_storage_key "$AZURE_STORAGE_KEY"
     '
     {
       ".uaa.service_provider_key_credentials": {
@@ -350,8 +352,8 @@ cf_properties=$(
         ".properties.system_blobstore.external_azure.droplets_container": { "value": "\($terraform_prefix)-droplets" },
         ".properties.system_blobstore.external_azure.packages_container": { "value": "\($terraform_prefix)-packages" },
         ".properties.system_blobstore.external_azure.resources_container": { "value": "\($terraform_prefix)-resources" },
-        ".properties.system_blobstore.external_azure.account_name": { "value": "foo" },
-        ".properties.system_blobstore.external_azure.access_key": { "value": { "secret": "foo" } },
+        ".properties.system_blobstore.external_azure.account_name": { "value": $azure_storage_account },
+        ".properties.system_blobstore.external_azure.access_key": { "value": { "secret": "$azure_storage_key" } },
         ".properties.system_blobstore.external_azure.environment": { "value": "AzureCloud" },
       }
     else

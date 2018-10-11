@@ -33,10 +33,13 @@ params:
   HAPROXY_TLS_CIPHERS:
   FRONTEND_IDLE_TIMEOUT:
   INTERNET_CONNECTED:
-  CONTAINER_NETWORKING_NW_CIDR:
+  CONTAINER_NETWORKING_NW_CIDR:  
   # IaaS Specific for GCP only
   gcp_storage_access_key:
   gcp_storage_secret_key:
+  # IaaS Specific for Azure only
+  AZURE_STORAGE_ACCOUNT:
+  AZURE_STORAGE_KEY:
   # aws specific
   S3_ENDPOINT:
   # db credentials

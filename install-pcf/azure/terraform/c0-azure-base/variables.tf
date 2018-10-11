@@ -76,3 +76,6 @@ variable "terraform_azure_storage_account_name" {}
 variable "terraform_azure_storage_container_name" {
   default = "terraformstate"
 }
+variable "mysql_paas_enable" {}
+variable "mysql_paas_admin_username" {}
+variable "mysql_paas_admin_password" {}

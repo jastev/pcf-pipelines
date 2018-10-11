@@ -123,13 +123,11 @@ elif [[ "${pcf_iaas}" == "gcp" ]]; then
     }
   ]"
 elif [[ "${pcf_iaas}" == "azure" ]]; then
-  db_type="internal"
   cd terraform-state
   db_host=$(terraform output --json -state *.tfstate | jq --raw-output '.mysql_paas_fqdn.value')
   cd -
   if [ -z "$db_host" ]; then
-    echo Failed to get SQL instance IP from Terraform state file
-    exit 1
+    db_type="internal"
   fi
 fi
 

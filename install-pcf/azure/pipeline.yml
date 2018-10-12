@@ -129,10 +129,10 @@ jobs:
   serial: true
   max_in_flight: 1
   serial_groups: [full]
-  ensure:
-    put: terraform-state
-    params:
-      file: terraform-state-output/terraform.tfstate
+  #ensure:
+  #  put: terraform-state
+  #  params:
+  #    file: terraform-state-output/terraform.tfstate
   plan:
   - aggregate:
     - get: pcf-pipelines

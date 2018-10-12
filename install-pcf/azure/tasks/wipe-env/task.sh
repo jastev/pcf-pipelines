@@ -32,7 +32,8 @@ function delete-infrastructure() {
   echo "Executing Terraform Destroy ...."
   echo "=============================================================================================="
 
-  terraform init "pcf-pipelines/install-pcf/azure/terraform/${AZURE_PCF_TERRAFORM_TEMPLATE}"
+  #terraform init "pcf-pipelines/install-pcf/azure/terraform/${AZURE_PCF_TERRAFORM_TEMPLATE}"
+  terraform init -backend=true -backend-config="storage_account_name=${TERRAFORM_AZURE_STORAGE_ACCOUNT_NAME}" -backend-config="container_name=${TERRAFORM_AZURE_STORAGE_CONTAINER_NAME}" -backend-config="key=${TERRAFORM_AZURE_STATEFILE_NAME}" -backend-config="access_key=${TERRAFORM_AZURE_STORAGE_ACCESS_KEY}" "pcf-pipelines/install-pcf/azure/terraform/${AZURE_PCF_TERRAFORM_TEMPLATE}"
 
   terraform destroy -force \
     -var "subscription_id=${AZURE_SUBSCRIPTION_ID}" \

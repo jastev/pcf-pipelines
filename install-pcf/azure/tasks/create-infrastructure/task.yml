@@ -4,7 +4,7 @@ platform: linux
 image_resource:
   type: docker-image
   source:
-    repository: pcfnorm/rootfs
+    repository: hashicorp/terraform:0.11.8
 
 inputs:
   - name: pcf-pipelines

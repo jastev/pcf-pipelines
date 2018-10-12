@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -ex
 
 echo "=============================================================================================="
 echo "Configuring OpsManager @ https://${OPSMAN_DOMAIN_OR_IP_ADDRESS} ..."

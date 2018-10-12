@@ -95,4 +95,4 @@ echo "==========================================================================
 echo "Executing Terraform Apply ..."
 echo "=============================================================================================="
 
-terraform apply -auto-approve
+terraform apply terraform.tfplan -auto-approve

@@ -88,11 +88,11 @@ terraform plan \
   -var "azure_resources_container=${AZURE_RESOURCES_CONTAINER}" \
   -var "om_disk_size_in_gb=${PCF_OPSMAN_DISK_SIZE_IN_GB}" \
   -var "azure_lb_sku"=${AZURE_LB_SKU} \
-  -out terraform.tfplan \
+  -out /tmp/terraform.tfplan \
   "pcf-pipelines/install-pcf/azure/terraform/${AZURE_PCF_TERRAFORM_TEMPLATE}"
 
 echo "=============================================================================================="
 echo "Executing Terraform Apply ..."
 echo "=============================================================================================="
 
-terraform apply terraform.tfplan -auto-approve
+terraform apply -auto-approve

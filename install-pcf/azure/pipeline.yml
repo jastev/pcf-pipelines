@@ -49,7 +49,7 @@ resources:
   source:
     storage_account_name: {{terraform_azure_storage_account_name}}
     storage_account_key: {{terraform_azure_storage_access_key}}
-    container: {{azure_storage_container_name}}
+    container: {{terraform_azure_storage_container_name}}
     versioned_file: terraform.tfstate
 
 - name: pcf-pipelines
@@ -88,7 +88,7 @@ jobs:
     params:
       AZURE_STORAGE_ACCOUNT: {{terraform_azure_storage_account_name}}
       AZURE_STORAGE_KEY: {{terraform_azure_storage_access_key}}
-      CONTAINER: {{azure_storage_container_name}}
+      CONTAINER: {{terraform_azure_storage_container_name}}
     file: pcf-pipelines/install-pcf/azure/tasks/create-initial-terraform-state/task.yml
 
 #####################
@@ -186,9 +186,13 @@ jobs:
       AZURE_TERRAFORM_SUBNET_ERT_CIDR: {{azure_terraform_subnet_ert_cidr}}
       AZURE_TERRAFORM_SUBNET_SERVICES1_CIDR: {{azure_terraform_subnet_services1_cidr}}
       AZURE_TERRAFORM_SUBNET_DYNAMIC_SERVICES_CIDR: {{azure_terraform_subnet_dynamic_services_cidr}}
-      AZURE_STORAGE_ACCOUNT_NAME: {{azure_storage_account_name}}
+      AZURE_ERT_STORAGE_ACCOUNT_NAME: {{azure_ert_storage_account_name}}
+      TERRAFORM_AZURE_STORAGE_ACCOUNT_NAME: {{terraform_azure_storage_account_name}}
       PCF_OPSMAN_DISK_SIZE_IN_GB: {{pcf_opsman_disk_size_in_gb}}
       AZURE_LB_SKU: {{azure_lb_sku}}
+      TERRAFORM_AZURE_STORAGE_ACCESS_KEY: {{terraform_azure_storage_access_key}}
+      TERRAFORM_AZURE_STORAGE_CONTAINER_NAME: {{terraform_azure_storage_container_name}}
+      TERRAFORM_AZURE_STATEFILE_NAME: {{terraform_azure_statefile_name}}
 
 ##############################
 ## Job - Config OpsMan Auth ##

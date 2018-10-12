@@ -65,7 +65,7 @@ terraform plan \
   -var "azure_terraform_subnet_services1_cidr=${AZURE_TERRAFORM_SUBNET_SERVICES1_CIDR}" \
   -var "azure_terraform_subnet_dynamic_services_cidr=${AZURE_TERRAFORM_SUBNET_DYNAMIC_SERVICES_CIDR}" \
   -var "terraform_azure_storage_container_name"=${TERRAFORM_AZURE_STORAGE_CONTAINER_NAME} \
-  -var "terraform_azure_storage_access_key"=${TERRAFORM_AZURE_STORAGE_ACCESS_KEY} \ 
+  -var "terraform_azure_storage_access_key"=${TERRAFORM_AZURE_STORAGE_ACCESS_KEY} \
   -var "ert_subnet_id=${ERT_SUBNET}" \
   -var "pcf_ert_domain=${PCF_ERT_DOMAIN}" \
   -var "system_domain=${SYSTEM_DOMAIN}" \

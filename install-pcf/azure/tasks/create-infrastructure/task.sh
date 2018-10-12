@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -e -x
 
 # Copy base template with no clobber if not using the base template
 if [[ ! ${AZURE_PCF_TERRAFORM_TEMPLATE} == "c0-azure-base" ]]; then
@@ -7,7 +7,7 @@ if [[ ! ${AZURE_PCF_TERRAFORM_TEMPLATE} == "c0-azure-base" ]]; then
 fi
 
 # Get ert subnet if multi-resgroup
-if [ -z "${AZURE_MULTI_RESGROUP_NETWORK}" ]; then
+if [ -z ${AZURE_MULTI_RESGROUP_NETWORK} ]; then
 	az login --service-principal -u ${AZURE_CLIENT_ID} -p ${AZURE_CLIENT_SECRET} --tenant ${AZURE_TENANT_ID}
 	az account set --subscription ${AZURE_SUBSCRIPTION_ID}
 	ERT_SUBNET_CMD="az network vnet subnet list -g network-core --vnet-name vnet-pcf --output json | jq '.[] | select(.name == \"ert\") | .id' | tr -d '\"'"
@@ -47,8 +47,8 @@ fi
 echo "=============================================================================================="
 echo "Executing Terraform Plan ..."
 echo "=============================================================================================="
-
-terraform init -backend=true -backend-config="storage_account_name=${TERRAFORM_AZURE_STORAGE_ACCOUNT_NAME}" -backend-config="container_name=${TERRAFORM_AZURE_STORAGE_CONTAINER_NAME}" -backend-config="key=${TERRAFORM_AZURE_STATEFILE_NAME}" -backend-config="access_key=${TERRAFORM_AZURE_STORAGE_ACCESS_KEY}" "pcf-pipelines/install-pcf/azure/terraform/${AZURE_PCF_TERRAFORM_TEMPLATE}"
+echo ${TERRAFORM_AZURE_STORAGE_CONTAINER_NAME}
+terraform init -backend=true -backend-config="storage_account_name='${TERRAFORM_AZURE_STORAGE_ACCOUNT_NAME}'" -backend-config="container_name=${TERRAFORM_AZURE_STORAGE_CONTAINER_NAME}" -backend-config="key=${TERRAFORM_AZURE_STATEFILE_NAME}" -backend-config="access_key=${TERRAFORM_AZURE_STORAGE_ACCESS_KEY}" "pcf-pipelines/install-pcf/azure/terraform/${AZURE_PCF_TERRAFORM_TEMPLATE}"
 
 terraform plan \
   -var "arm_subscription_id=${AZURE_SUBSCRIPTION_ID}" \

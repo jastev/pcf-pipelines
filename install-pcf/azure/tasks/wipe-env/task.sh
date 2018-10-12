@@ -76,8 +76,8 @@ function delete-infrastructure() {
     -var "azure_packages_container=dontcare" \
     -var "azure_resources_container=dontcare" \
     -var "om_disk_size_in_gb=50" \
-    -state "${ROOT}/terraform-state/terraform.tfstate" \
-    -state-out "${ROOT}/terraform-state-output/terraform.tfstate" \
+#    -state "${ROOT}/terraform-state/terraform.tfstate" \
+#    -state-out "${ROOT}/terraform-state-output/terraform.tfstate" \
     "pcf-pipelines/install-pcf/azure/terraform/${AZURE_PCF_TERRAFORM_TEMPLATE}"
 }
 

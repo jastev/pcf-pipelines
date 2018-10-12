@@ -13,7 +13,7 @@ om-linux --target https://${OPSMAN_DOMAIN_OR_IP_ADDRESS} -k \
   --decryption-passphrase "${PCF_OPSMAN_ADMIN_PASSWORD}"
 
 
-if [[ ${ENABLE_AAD_OPSMAN} ]]; then
+if [[ ${ENABLE_OPSMAN_AAD} ]]; then
 	echo "Configuring AAD SAML for OpsManager"
 	om-linux --target https://${OPSMAN_DOMAIN_OR_IP_ADDRESS} -k \ 
 	  configure-saml-authentication \ 

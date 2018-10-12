@@ -29,3 +29,12 @@ resource "azurerm_mysql_server" "test" {
   version = "5.7"
   ssl_enforcement = "Enabled"
 }
+
+resource "azurerm_mysql_database" "test" {
+  name                = "exampledb"
+  resource_group_name = "${azurerm_resource_group.test.name}"
+  server_name         = "${azurerm_mysql_server.test.name}"
+  charset             = "utf8"
+  collation           = "utf8_unicode_ci"
+  count = "${var.mysql_paas_enable}"
+}

@@ -68,6 +68,7 @@ function delete-infrastructure() {
     -var "vm_admin_username=dontcare" \
     -var "vm_admin_public_key=dontcare" \
 	-var "arm_client_id=dontcare" \
+	-var "arm_client_secret=dontcare" \
     -var "azure_multi_resgroup_network=dontcare" \
     -var "azure_multi_resgroup_pcf=dontcare" \
     -var "azure_opsman_priv_ip=dontcare" \

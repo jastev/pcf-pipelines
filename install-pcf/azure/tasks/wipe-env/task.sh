@@ -34,7 +34,8 @@ function delete-infrastructure() {
 
   #terraform init "pcf-pipelines/install-pcf/azure/terraform/${AZURE_PCF_TERRAFORM_TEMPLATE}"
   terraform init -backend=true -backend-config="storage_account_name=${TERRAFORM_AZURE_STORAGE_ACCOUNT_NAME}" -backend-config="container_name=${TERRAFORM_AZURE_STORAGE_CONTAINER_NAME}" -backend-config="key=${TERRAFORM_AZURE_STATEFILE_NAME}" -backend-config="access_key=${TERRAFORM_AZURE_STORAGE_ACCESS_KEY}" "pcf-pipelines/install-pcf/azure/terraform/${AZURE_PCF_TERRAFORM_TEMPLATE}"
-
+  terraform plan
+  terraform apply -auto-approve
   terraform destroy \
     -var "subscription_id=${AZURE_SUBSCRIPTION_ID}" \
     -var "client_id=${AZURE_CLIENT_ID}" \
@@ -81,7 +82,7 @@ function delete-infrastructure() {
 	#-out terraform.tfplan 
     #"pcf-pipelines/install-pcf/azure/terraform/${AZURE_PCF_TERRAFORM_TEMPLATE}"
 
-  #terraform apply -auto-approve "terraform.tfplan"
+  # "terraform.tfplan"
 }
 
 function main() {

@@ -21,5 +21,6 @@ if [[ ${ENABLE_OPSMAN_AAD} ]]; then
 	  	--saml-bosh-idp-metadata "https://login.microsoftonline.com/${OPSMAN_AAD_TENANTID}/federationmetadata/2007-06/federationmetadata.xml?appid=${OPSMAN_AAD_APPID}" \
 	  	--saml-idp-metadata "https://login.microsoftonline.com/${OPSMAN_AAD_TENANTID}/federationmetadata/2007-06/federationmetadata.xml?appid=${OPSMAN_AAD_APPID}" \
 		--saml-rbac-admin-group "${OPSMAN_AAD_ADMIN_GROUPID}" \
-	  	--saml-rbac-groups-attribute "http://schemas.microsoft.com/ws/2008/06/identity/claims/groups"
+	  	--saml-rbac-groups-attribute "http://schemas.microsoft.com/ws/2008/06/identity/claims/groups" \
+		--decryption-passphrase "${PCF_OPSMAN_ADMIN_PASSWORD}"
 fi

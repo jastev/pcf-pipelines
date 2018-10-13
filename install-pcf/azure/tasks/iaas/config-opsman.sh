@@ -15,11 +15,10 @@ om-linux --target https://${OPSMAN_DOMAIN_OR_IP_ADDRESS} -k \
 
 if [[ ${ENABLE_OPSMAN_AAD} ]]; then
 	echo "Configuring AAD SAML for OpsManager"
-	om-linux --version
-	om-linux --help
-	om-linux --target "https://${OPSMAN_DOMAIN_OR_IP_ADDRESS}" -k configure-saml-authentication \
-	  	--username "${PCF_OPSMAN_ADMIN}" \
+	om-linux --target "https://${OPSMAN_DOMAIN_OR_IP_ADDRESS}" -k \
+		--username "${PCF_OPSMAN_ADMIN}" \
   		--password "${PCF_OPSMAN_ADMIN_PASSWORD}" \
+	  configure-saml-authentication \
 	  	--saml-bosh-idp-metadata "https://login.microsoftonline.com/${OPSMAN_AAD_TENANTID}/federationmetadata/2007-06/federationmetadata.xml?appid=${OPSMAN_AAD_APPID}" \
 	  	--saml-idp-metadata "https://login.microsoftonline.com/${OPSMAN_AAD_TENANTID}/federationmetadata/2007-06/federationmetadata.xml?appid=${OPSMAN_AAD_APPID}" \
 		--saml-rbac-admin-group "${OPSMAN_AAD_ADMIN_GROUPID}" \

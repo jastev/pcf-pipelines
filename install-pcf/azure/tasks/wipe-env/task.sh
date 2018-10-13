@@ -78,8 +78,8 @@ function delete-infrastructure() {
     -var "om_disk_size_in_gb=50" \
 #    -state "${ROOT}/terraform-state/terraform.tfstate" \
 #    -state-out "${ROOT}/terraform-state-output/terraform.tfstate" \
-	-out terraform.tfplan \
-    "pcf-pipelines/install-pcf/azure/terraform/${AZURE_PCF_TERRAFORM_TEMPLATE}"
+	-out terraform.tfplan 
+    #"pcf-pipelines/install-pcf/azure/terraform/${AZURE_PCF_TERRAFORM_TEMPLATE}"
 
   terraform apply -auto-approve "terraform.tfplan"
 }

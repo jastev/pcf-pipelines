@@ -36,10 +36,10 @@ function delete-infrastructure() {
   terraform init -backend=true -backend-config="storage_account_name=${TERRAFORM_AZURE_STORAGE_ACCOUNT_NAME}" -backend-config="container_name=${TERRAFORM_AZURE_STORAGE_CONTAINER_NAME}" -backend-config="key=${TERRAFORM_AZURE_STATEFILE_NAME}" -backend-config="access_key=${TERRAFORM_AZURE_STORAGE_ACCESS_KEY}" "pcf-pipelines/install-pcf/azure/terraform/${AZURE_PCF_TERRAFORM_TEMPLATE}"
 
   terraform destroy -force \
-    -var "subscription_id=${AZURE_SUBSCRIPTION_ID}" \
-    -var "client_id=${AZURE_CLIENT_ID}" \
-    -var "client_secret=${AZURE_CLIENT_SECRET}" \
-    -var "tenant_id=${AZURE_TENANT_ID}" \
+    -var "arm_subscription_id=${AZURE_SUBSCRIPTION_ID}" \
+    -var "arm_client_id=${AZURE_CLIENT_ID}" \
+    -var "arm_client_secret=${AZURE_CLIENT_SECRET}" \
+    -var "arm_tenant_id=${AZURE_TENANT_ID}" \
     -var "location=dontcare" \
     -var "env_name=dontcare" \
     -var "env_short_name=dontcare" \
@@ -67,8 +67,6 @@ function delete-infrastructure() {
     -var "ops_manager_image_uri=dontcare" \
     -var "vm_admin_username=dontcare" \
     -var "vm_admin_public_key=dontcare" \
-	-var "arm_client_id=dontcare" \
-	-var "arm_client_secret=dontcare" \
     -var "azure_multi_resgroup_network=dontcare" \
     -var "azure_multi_resgroup_pcf=dontcare" \
     -var "azure_opsman_priv_ip=dontcare" \

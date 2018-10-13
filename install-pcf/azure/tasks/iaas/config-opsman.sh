@@ -6,7 +6,7 @@ echo "Configuring OpsManager @ https://${OPSMAN_DOMAIN_OR_IP_ADDRESS} ..."
 echo "=============================================================================================="
 
 #Configure Opsman
-if [[ ${AUTHENTICATION_MODE} == "saml"]]
+if [[ ${AUTHENTICATION_MODE} == "saml"]]; then
 #if [[ ${ENABLE_OPSMAN_AAD} ]]; then
 	echo "Configuring AAD SAML for OpsManager"
 	om-linux --target "https://${OPSMAN_DOMAIN_OR_IP_ADDRESS}" -k \
@@ -19,7 +19,7 @@ if [[ ${AUTHENTICATION_MODE} == "saml"]]
 	  	--saml-rbac-groups-attribute "http://schemas.microsoft.com/ws/2008/06/identity/claims/groups" \
 		--decryption-passphrase "${PCF_OPSMAN_ADMIN_PASSWORD}"
 
-elif [[ ${AUTHENTICATION_MODE} == "internal"]]
+elif [[ ${AUTHENTICATION_MODE} == "internal"]]; then
 	om-linux --target https://${OPSMAN_DOMAIN_OR_IP_ADDRESS} -k \
 		configure-authentication \
 		--username "${PCF_OPSMAN_ADMIN}" \

@@ -44,13 +44,13 @@ resource_types:
     tag: latest
 
 resources:
-- name: terraform-state
-  type: azure-blobstore
-  source:
-    storage_account_name: {{terraform_azure_storage_account_name}}
-    storage_account_key: {{terraform_azure_storage_access_key}}
-    container: {{terraform_azure_storage_container_name}}
-    versioned_file: terraform.tfstate
+#- name: terraform-state
+#  type: azure-blobstore
+#  source:
+#    storage_account_name: {{terraform_azure_storage_account_name}}
+#    storage_account_key: {{terraform_azure_storage_access_key}}
+#    container: {{terraform_azure_storage_container_name}}
+#    versioned_file: terraform.tfstate
 
 - name: pcf-pipelines
   type: git
@@ -87,9 +87,10 @@ jobs:
   - get: pcf-pipelines
   - task: create-terraform-state
     params:
-      AZURE_STORAGE_ACCOUNT: {{terraform_azure_storage_account_name}}
-      AZURE_STORAGE_KEY: {{terraform_azure_storage_access_key}}
-      CONTAINER: {{terraform_azure_storage_container_name}}
+      TERRAFORM_AZURE_STORAGE_ACCOUNT_NAME: {{terraform_azure_storage_account_name}}
+      TERRAFORM_AZURE_STORAGE_ACCESS_KEY: {{terraform_azure_storage_access_key}}
+      TERRAFORM_AZURE_STORAGE_CONTAINER_NAME: {{terraform_azure_storage_container_name}}
+      TERRAFORM_AZURE_STATEFILE_NAME: {{terraform_azure_statefile_name}}
     file: pcf-pipelines/install-pcf/azure/tasks/create-initial-terraform-state/task.yml
 
 #####################
@@ -99,14 +100,14 @@ jobs:
   serial: true
   max_in_flight: 1
   serial_groups: [full]
-  ensure:
-    put: terraform-state
-    params:
-      file: terraform-state-output/terraform.tfstate
+#  ensure:
+#    put: terraform-state
+#    params:
+#      file: terraform-state-output/terraform.tfstate
   plan:
   - aggregate:
     - get: pcf-pipelines
-    - get: terraform-state
+#    - get: terraform-state
 
   - task: wipe-env
     file: pcf-pipelines/install-pcf/azure/tasks/wipe-env/task.yml
@@ -122,6 +123,10 @@ jobs:
       OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}
       OPSMAN_USERNAME: {{opsman_admin_username}}
       OPSMAN_PASSWORD: {{opsman_admin_password}}
+      TERRAFORM_AZURE_STORAGE_ACCOUNT_NAME:  {{terraform_azure_storage_account_name}}
+      TERRAFORM_AZURE_STORAGE_ACCESS_KEY: {{terraform_azure_storage_access_key}}
+      TERRAFORM_AZURE_STORAGE_CONTAINER_NAME: {{terraform_azure_storage_container_name}}
+      TERRAFORM_AZURE_STATEFILE_NAME: {{terraform_azure_statefile_name}}
 
 #################################
 ## Job - Create Infrastructure ##
@@ -130,14 +135,14 @@ jobs:
   serial: true
   max_in_flight: 1
   serial_groups: [full]
-  ensure:
-    put: terraform-state
-    params:
-      file: terraform-state-output/terraform.tfstate
+  #ensure:
+  #  put: terraform-state
+  #  params:
+  #    file: terraform-state-output/terraform.tfstate
   plan:
   - aggregate:
     - get: pcf-pipelines
-    - get: terraform-state
+#    - get: terraform-state
     - get: pivnet-opsmgr
       params:
         globs:
@@ -217,6 +222,7 @@ jobs:
         type: docker-image
         source:
           repository: pcfnorm/rootfs
+          tag: release-candidate
       inputs:
         - name: pcf-pipelines
       run:
@@ -363,7 +369,7 @@ jobs:
   plan:
   - aggregate:
     - get: pcf-pipelines
-    - get: terraform-state
+#    - get: terraform-state
     - get: pivnet-opsmgr
       passed: [upload-ert]
       trigger: true

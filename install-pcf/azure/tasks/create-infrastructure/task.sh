@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -e -x
 
 # Copy base template with no clobber if not using the base template
 if [[ ! ${AZURE_PCF_TERRAFORM_TEMPLATE} == "c0-azure-base" ]]; then
@@ -91,4 +91,4 @@ echo "==========================================================================
 echo "Executing Terraform Apply ..."
 echo "=============================================================================================="
 
-terraform apply -auto-approve
+terraform apply -auto-approve "terraform.tfplan"

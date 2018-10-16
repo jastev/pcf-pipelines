@@ -1,5 +1,5 @@
 #!/bin/bash
-set -eu
+set -e
 
 ROOT="${PWD}"
 
@@ -32,13 +32,14 @@ function delete-infrastructure() {
   echo "Executing Terraform Destroy ...."
   echo "=============================================================================================="
 
-  terraform init "pcf-pipelines/install-pcf/azure/terraform/${AZURE_PCF_TERRAFORM_TEMPLATE}"
+  #terraform init "pcf-pipelines/install-pcf/azure/terraform/${AZURE_PCF_TERRAFORM_TEMPLATE}"
+  terraform init -backend=true -backend-config="storage_account_name=${TERRAFORM_AZURE_STORAGE_ACCOUNT_NAME}" -backend-config="container_name=${TERRAFORM_AZURE_STORAGE_CONTAINER_NAME}" -backend-config="key=${TERRAFORM_AZURE_STATEFILE_NAME}" -backend-config="access_key=${TERRAFORM_AZURE_STORAGE_ACCESS_KEY}" "pcf-pipelines/install-pcf/azure/terraform/${AZURE_PCF_TERRAFORM_TEMPLATE}"
 
   terraform destroy -force \
-    -var "subscription_id=${AZURE_SUBSCRIPTION_ID}" \
-    -var "client_id=${AZURE_CLIENT_ID}" \
-    -var "client_secret=${AZURE_CLIENT_SECRET}" \
-    -var "tenant_id=${AZURE_TENANT_ID}" \
+    -var "arm_subscription_id=${AZURE_SUBSCRIPTION_ID}" \
+    -var "arm_client_id=${AZURE_CLIENT_ID}" \
+    -var "arm_client_secret=${AZURE_CLIENT_SECRET}" \
+    -var "arm_tenant_id=${AZURE_TENANT_ID}" \
     -var "location=dontcare" \
     -var "env_name=dontcare" \
     -var "env_short_name=dontcare" \
@@ -47,6 +48,9 @@ function delete-infrastructure() {
     -var "azure_terraform_subnet_ert_cidr=dontcare" \
     -var "azure_terraform_subnet_services1_cidr=dontcare" \
     -var "azure_terraform_subnet_dynamic_services_cidr=dontcare" \
+	-var "terraform_azure_storage_container_name=dontcare" \
+  	-var "terraform_azure_storage_access_key=dontcare" \
+	-var "terraform_azure_storage_account_name=dontcare" \
     -var "ert_subnet_id=dontcare" \
     -var "pcf_ert_domain=dontcare" \
     -var "system_domain=dontcare" \
@@ -69,14 +73,12 @@ function delete-infrastructure() {
     -var "azure_multi_resgroup_network=dontcare" \
     -var "azure_multi_resgroup_pcf=dontcare" \
     -var "azure_opsman_priv_ip=dontcare" \
-    -var "azure_storage_account_name=dontcare" \
+    -var "azure_ert_storage_account_name=dontcare" \
     -var "azure_buildpacks_container=dontcare" \
     -var "azure_droplets_container=dontcare" \
     -var "azure_packages_container=dontcare" \
     -var "azure_resources_container=dontcare" \
     -var "om_disk_size_in_gb=50" \
-    -state "${ROOT}/terraform-state/terraform.tfstate" \
-    -state-out "${ROOT}/terraform-state-output/terraform.tfstate" \
     "pcf-pipelines/install-pcf/azure/terraform/${AZURE_PCF_TERRAFORM_TEMPLATE}"
 }
 

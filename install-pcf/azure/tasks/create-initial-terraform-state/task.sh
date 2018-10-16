@@ -16,21 +16,21 @@ set -ex
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-blobs=$(az storage blob list -c ${CONTAINER})
+blobs=$(az storage blob list -c ${TERRAFORM_AZURE_STORAGE_CONTAINER_NAME})
 files=$(echo "$blobs" | jq -r .[].name)
 
 set +e
 echo ${files} | grep terraform.tfstate
 if [ "$?" -gt "0" ]; then
   echo "{\"version\": 3}" > terraform.tfstate
-  az storage blob upload -c ${CONTAINER} -n terraform.tfstate -f terraform.tfstate
+  az storage blob upload -c ${TERRAFORM_AZURE_STORAGE_CONTAINER_NAME} -n terraform.tfstate -f terraform.tfstate
   set +x
   if [ "$?" -gt "0" ]; then
     echo "Failed to upload empty tfstate file"
     exit 1
   fi
   set -x
-  az storage blob snapshot -c ${CONTAINER} -n terraform.tfstate
+  az storage blob snapshot -c ${TERRAFORM_AZURE_STORAGE_CONTAINER_NAME} -n terraform.tfstate
   set +x
   if [ "$?" -gt "0" ]; then
     echo "Failed to create snapshot of tfstate file"

@@ -47,6 +47,8 @@ function delete-infrastructure() {
     -var "azure_terraform_subnet_ert_cidr=dontcare" \
     -var "azure_terraform_subnet_services1_cidr=dontcare" \
     -var "azure_terraform_subnet_dynamic_services_cidr=dontcare" \
+    -var "terraform_azure_storage_access_key=dontcare" \
+    -var "terraform_azure_storage_account_name=dontcare" \
     -var "ert_subnet_id=dontcare" \
     -var "pcf_ert_domain=dontcare" \
     -var "system_domain=dontcare" \

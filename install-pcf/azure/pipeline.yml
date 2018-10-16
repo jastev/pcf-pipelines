@@ -44,13 +44,6 @@ resource_types:
     tag: latest
 
 resources:
-#- name: terraform-state
-#  type: azure-blobstore
-#  source:
-#    storage_account_name: {{terraform_azure_storage_account_name}}
-#    storage_account_key: {{terraform_azure_storage_access_key}}
-#    container: {{terraform_azure_storage_container_name}}
-#    versioned_file: terraform.tfstate
 
 - name: pcf-pipelines
   type: git
@@ -100,14 +93,10 @@ jobs:
   serial: true
   max_in_flight: 1
   serial_groups: [full]
-#  ensure:
-#    put: terraform-state
-#    params:
-#      file: terraform-state-output/terraform.tfstate
+
   plan:
   - aggregate:
     - get: pcf-pipelines
-#    - get: terraform-state
 
   - task: wipe-env
     file: pcf-pipelines/install-pcf/azure/tasks/wipe-env/task.yml
@@ -135,14 +124,10 @@ jobs:
   serial: true
   max_in_flight: 1
   serial_groups: [full]
-  #ensure:
-  #  put: terraform-state
-  #  params:
-  #    file: terraform-state-output/terraform.tfstate
+
   plan:
   - aggregate:
     - get: pcf-pipelines
-#    - get: terraform-state
     - get: pivnet-opsmgr
       params:
         globs:
@@ -369,7 +354,6 @@ jobs:
   plan:
   - aggregate:
     - get: pcf-pipelines
-#    - get: terraform-state
     - get: pivnet-opsmgr
       passed: [upload-ert]
       trigger: true

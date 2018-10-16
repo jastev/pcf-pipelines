@@ -25,4 +25,4 @@ params:
   TERRAFORM_AZURE_STATEFILE_NAME:
 
 run:
-  path: pcf-pipelines/install-pcf/azure/tasks/create-initial-terraform-state/task.sh
+  path: pcf-pipelines/install-pcf/azure/tasks/check-terraform-state/task.sh

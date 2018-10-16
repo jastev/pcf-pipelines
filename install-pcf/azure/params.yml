@@ -130,7 +130,7 @@ haproxy_backend_ca:
 haproxy_forward_tls: enable
 
 # The lb value can be obtained by prepending "web-lb" with "azure_terraform_prefix". For example, if your "azure_terraform_prefix" is "test", then the "ha_proxy_lb_name" is "test-web-lb".
-ha_proxy_lb_name: CHANGEME 
+ha_proxy_lb_name: CHANGEME
 
 # Choose between "Basic" and "Standard"
 azure_lb_sku: "Standard"
@@ -160,6 +160,37 @@ syslog_adapter_instances: 3
 syslog_scheduler_instances: 2
 tcp_router_instances: 0
 uaa_instances: 2
+
+# Whether or not to use the Azure MySQL service. When this value == 1, all
+# other mysql options are ignored.
+mysql_paas_enable: 0
+# When using the Azure MySQL PaaS, these options are required.
+mysql_paas_admin_username: CHANGEME
+mysql_paas_admin_password: CHANGEME
+db_accountdb_password: CHANGEME
+db_accountdb_username: CHANGEME
+db_app_usage_service_password: CHANGEME
+db_app_usage_service_username: CHANGEME
+db_autoscale_password: CHANGEME
+db_autoscale_username: CHANGEME
+db_ccdb_password: CHANGEME
+db_ccdb_username: CHANGEME
+db_diego_password: CHANGEME
+db_diego_username: CHANGEME
+db_locket_password: CHANGEME
+db_locket_username: CHANGEME
+db_networkpolicyserverdb_password: CHANGEME
+db_networkpolicyserverdb_username: CHANGEME
+db_nfsvolumedb_password: CHANGEME
+db_nfsvolumedb_username: CHANGEME
+db_notifications_password: CHANGEME
+db_notifications_username: CHANGEME
+db_routing_password: CHANGEME
+db_routing_username: CHANGEME
+db_silk_password: CHANGEME
+db_silk_username: CHANGEME
+db_uaa_password: CHANGEME
+db_uaa_username: CHANGEME
 
 # Whether or not the ERT VMs are internet connected.
 internet_connected: false

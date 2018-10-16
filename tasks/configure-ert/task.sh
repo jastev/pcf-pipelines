@@ -122,7 +122,11 @@ elif [[ "${pcf_iaas}" == "gcp" ]]; then
       }
     }
   ]"
-  elif [[ "${pcf_iaas}" == "azure" ]]; then
+elif [[ "${pcf_iaas}" == "azure" ]]; then
+  cd terraform-state
+  db_host=$(terraform output --json -state *.tfstate | jq --raw-output '.mysql_paas_fqdn.value')
+  cd -
+  if [ -z "$db_host" ]; then
     db_type="internal"
   fi
 fi

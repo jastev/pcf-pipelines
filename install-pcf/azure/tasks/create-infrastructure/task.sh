@@ -84,6 +84,10 @@ terraform plan \
   -var "azure_resources_container=${AZURE_RESOURCES_CONTAINER}" \
   -var "om_disk_size_in_gb=${PCF_OPSMAN_DISK_SIZE_IN_GB}" \
   -var "azure_lb_sku"=${AZURE_LB_SKU} \
+  -var "azure_lb_sku"=${AZURE_LB_SKU} \
+  -var "mysql_paas_enable=${MYSQL_PAAS_ENABLE}" \
+  -var "mysql_paas_admin_username=${MYSQL_PAAS_ADMIN_USERNAME}" \
+  -var "mysql_paas_admin_password=${MYSQL_PAAS_ADMIN_PASSWORD}" \
   -out terraform.tfplan \
   "pcf-pipelines/install-pcf/azure/terraform/${AZURE_PCF_TERRAFORM_TEMPLATE}"
 

@@ -64,6 +64,12 @@ resources:
     product_version: {{ert_major_minor_version}}
     sort_by: semver
 
+- name: rootfs-image
+  type: docker-image
+  source:
+    repository: pcfnorm/rootfs
+    tag: {{rootfs_image_tag}}
+
 jobs:
 ####################################
 ## Job - Boostrap Terraform State ##
@@ -89,6 +95,7 @@ jobs:
   plan:
   - aggregate:
     - get: pcf-pipelines
+    - get: rootfs-image
 
   - task: wipe-env
     file: pcf-pipelines/install-pcf/azure/tasks/wipe-env/task.yml
@@ -116,6 +123,7 @@ jobs:
   - aggregate:
     - get: pcf-pipelines
     - get: pivnet-opsmgr
+    - get: rootfs-image
       params:
         globs:
         - "*Azure.yml"
@@ -123,10 +131,6 @@ jobs:
   - task: upload-opsman
     config:
       platform: linux
-      image_resource:
-        type: docker-image
-        source:
-          repository: pcfnorm/rootfs
       inputs:
         - name: pcf-pipelines
         - name: pivnet-opsmgr
@@ -175,6 +179,7 @@ jobs:
   plan:
   - aggregate:
     - get: pcf-pipelines
+    - get: rootfs-image
     - get: pivnet-opsmgr
       passed: [create-infrastructure]
       params:
@@ -183,10 +188,6 @@ jobs:
   - task: config-opsman
     config:
       platform: linux
-      image_resource:
-        type: docker-image
-        source:
-          repository: pcfnorm/rootfs
       inputs:
         - name: pcf-pipelines
       run:
@@ -207,6 +208,7 @@ jobs:
   - aggregate:
     - get: pcf-pipelines
     - get: pivnet-opsmgr
+    - get: rootfs-image
       passed: [config-opsman-auth]
       trigger: true
       params:
@@ -215,10 +217,6 @@ jobs:
   - task: config-director
     config:
       platform: linux
-      image_resource:
-        type: docker-image
-        source:
-          repository: pcfnorm/rootfs
       inputs:
         - name: pcf-pipelines
       run:
@@ -262,6 +260,7 @@ jobs:
   plan:
   - aggregate:
     - get: pcf-pipelines
+    - get: rootfs-image
     - get: pivnet-opsmgr
       passed: [config-director]
       trigger: true
@@ -270,10 +269,6 @@ jobs:
   - task: deploy-director
     config:
       platform: linux
-      image_resource:
-        type: docker-image
-        source:
-          repository: pcfnorm/rootfs
       inputs:
         - name: pcf-pipelines
       run:

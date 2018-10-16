@@ -29,9 +29,10 @@ function checkFileExists(files)
   echo ${files} | grep ${TERRAFORM_AZURE_STATEFILE_NAME}
   if [ "$?" -gt "0" ]; then
     echo "Existing ${TERRAFORM_AZURE_STATEFILE_NAME}.tfstate file not found. Proper access to storage available to initialize in create-infrastructure."
+    return 0
   else
     echo "Existing ${TERRAFORM_AZURE_STATEFILE_NAME}.tfstate file found. Remove the file for this task to pass or proceed to next steps if this is desired."
-    exit 1
+    return 1
   fi
 }
 

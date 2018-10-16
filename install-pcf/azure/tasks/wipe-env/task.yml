@@ -8,10 +8,6 @@ image_resource:
 
 inputs:
   - name: pcf-pipelines
-  - name: terraform-state
-
-outputs:
-  - name: terraform-state-output
 
 run:
   path: pcf-pipelines/install-pcf/azure/tasks/wipe-env/task.sh

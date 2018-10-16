@@ -250,9 +250,10 @@ smtp_pwd:
 smtp_user:
 
 # Storage account and container that will be used for your terraform state
-azure_storage_container_name: CHANGEME
+terraform_azure_storage_container_name: CHANGEME
 terraform_azure_storage_access_key: CHANGEME
 terraform_azure_storage_account_name: CHANGEME
+terraform_azure_statefile_name: terraform.tfstate
 
 ## Syslog endpoint configuration goes here
 # Optional. If syslog_host is specified, syslog_port, syslog_protocol,

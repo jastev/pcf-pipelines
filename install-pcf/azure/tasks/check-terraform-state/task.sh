@@ -16,27 +16,33 @@ set -ex
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-blobs=$(az storage blob list -c ${CONTAINER})
-files=$(echo "$blobs" | jq -r .[].name)
+function getBlobFiles ()
+{
+  blobs=$(az storage blob list --account-name ${TERRAFORM_AZURE_STORAGE_ACCOUNT_NAME} --account-key ${TERRAFORM_AZURE_STORAGE_ACCESS_KEY} -c ${TERRAFORM_AZURE_STORAGE_CONTAINER_NAME})
+  files=$(echo "$blobs" | jq -r .[].name)
+  return files
+}
 
-set +e
-echo ${files} | grep terraform.tfstate
-if [ "$?" -gt "0" ]; then
-  echo "{\"version\": 3}" > terraform.tfstate
-  az storage blob upload -c ${CONTAINER} -n terraform.tfstate -f terraform.tfstate
-  set +x
+function checkFileExists(files)
+{
+  set +e
+  echo ${files} | grep ${TERRAFORM_AZURE_STATEFILE_NAME}
   if [ "$?" -gt "0" ]; then
-    echo "Failed to upload empty tfstate file"
+    echo "Existing ${TERRAFORM_AZURE_STATEFILE_NAME}.tfstate file not found. Proper access to storage available to initialize in create-infrastructure."
+  else
+    echo "Existing ${TERRAFORM_AZURE_STATEFILE_NAME}.tfstate file found. Remove the file for this task to pass or proceed to next steps if this is desired."
     exit 1
   fi
-  set -x
-  az storage blob snapshot -c ${CONTAINER} -n terraform.tfstate
-  set +x
-  if [ "$?" -gt "0" ]; then
-    echo "Failed to create snapshot of tfstate file"
-    exit 1
-  fi
-else
-  echo "terraform.tfstate file found, skipping"
-  exit 0
+}
+
+(
+  set -e
+  getBlobFiles
+  checkFileExists($files)
+)
+
+errorCode=$?
+if [ $errorCode -ne 0 ]; then
+  echo "az command to failed to successfully complete"
+  exit $errorCode
 fi

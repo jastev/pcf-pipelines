@@ -19,9 +19,10 @@ inputs:
 - name: pcf-pipelines
 
 params:
-  AZURE_STORAGE_ACCOUNT:
-  AZURE_STORAGE_KEY:
-  CONTAINER:
+  TERRAFORM_AZURE_STORAGE_ACCESS_KEY:
+  TERRAFORM_AZURE_STORAGE_CONTAINER_NAME:
+  TERRAFORM_AZURE_STORAGE_ACCOUNT_NAME:
+  TERRAFORM_AZURE_STATEFILE_NAME:
 
 run:
   path: pcf-pipelines/install-pcf/azure/tasks/create-initial-terraform-state/task.sh

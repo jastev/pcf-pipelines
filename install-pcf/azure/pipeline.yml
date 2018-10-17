@@ -83,6 +83,7 @@ jobs:
 
   - task: check-terraform-state
     image: rootfs-image
+    privileged: true
     file: pcf-pipelines/install-pcf/azure/tasks/check-terraform-state/task.yml
     params:
       TERRAFORM_AZURE_STORAGE_ACCOUNT_NAME: {{terraform_azure_storage_account_name}}
@@ -138,6 +139,7 @@ jobs:
         - "*Azure.yml"
 
   - task: upload-opsman
+    image: rootfs-image
     config:
       platform: linux
       inputs:
@@ -149,6 +151,7 @@ jobs:
         path: pcf-pipelines/install-pcf/azure/tasks/iaas/upload-opsman.sh
 
   - task: create-infrastructure
+    image: rootfs-image
     file: pcf-pipelines/install-pcf/azure/tasks/create-infrastructure/task.yml
     params:
       AZURE_PCF_TERRAFORM_TEMPLATE: {{azure_pcf_terraform_template}}
@@ -199,6 +202,7 @@ jobs:
         globs: []
 
   - task: config-opsman
+    image: rootfs-image
     config:
       platform: linux
       inputs:
@@ -220,14 +224,15 @@ jobs:
   plan:
   - aggregate:
     - get: pcf-pipelines
-    - get: pivnet-opsmgr
     - get: rootfs-image
+    - get: pivnet-opsmgr
       passed: [config-opsman-auth]
       trigger: true
       params:
         globs: []
 
   - task: config-director
+    image: rootfs-image
     config:
       platform: linux
       inputs:
@@ -280,6 +285,7 @@ jobs:
       params: {globs: []}
 
   - task: deploy-director
+    image: rootfs-image
     config:
       platform: linux
       inputs:
@@ -299,6 +305,7 @@ jobs:
   plan:
   - aggregate:
     - get: pcf-pipelines
+    - get: rootfs-image
     - get: pivnet-opsmgr
       passed: [deploy-director]
       trigger: true
@@ -310,6 +317,7 @@ jobs:
         - "cf*.pivotal"
 
   - task: upload-tile
+    image: rootfs-image
     file: pcf-pipelines/tasks/upload-product-and-stemcell/task.yml
     params:
       OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}
@@ -341,12 +349,14 @@ jobs:
   plan:
   - aggregate:
     - get: pcf-pipelines
+    - get: rootfs-image
     - get: pivnet-opsmgr
       passed: [upload-ert]
       trigger: true
       params: {globs: []}
 
   - task: configure-ert
+    image: rootfs-image
     file: pcf-pipelines/tasks/config-ert/task.yml
     params:
       IAAS: azure
@@ -485,12 +495,14 @@ jobs:
   plan:
   - aggregate:
     - get: pcf-pipelines
+    - get: rootfs-image
     - get: pivnet-opsmgr
       passed: [configure-ert]
       trigger: true
       params: {globs: []}
 
   - task: deploy-ert
+    image: rootfs-image
     file: pcf-pipelines/tasks/apply-changes/task.yml
     params:
       OPSMAN_DOMAIN_OR_IP_ADDRESS: {{opsman_domain_or_ip_address}}

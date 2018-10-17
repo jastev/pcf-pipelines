@@ -196,7 +196,6 @@ jobs:
   - aggregate:
     - get: pcf-pipelines
     - get: rootfs-image
-    - get: pivnet-opsmgr
       passed: [create-infrastructure]
       params:
         globs: []
@@ -225,7 +224,6 @@ jobs:
   - aggregate:
     - get: pcf-pipelines
     - get: rootfs-image
-    - get: pivnet-opsmgr
       passed: [config-opsman-auth]
       trigger: true
       params:
@@ -279,7 +277,6 @@ jobs:
   - aggregate:
     - get: pcf-pipelines
     - get: rootfs-image
-    - get: pivnet-opsmgr
       passed: [config-director]
       trigger: true
       params: {globs: []}
@@ -306,7 +303,6 @@ jobs:
   - aggregate:
     - get: pcf-pipelines
     - get: rootfs-image
-    - get: pivnet-opsmgr
       passed: [deploy-director]
       trigger: true
       params: {globs: []}
@@ -350,7 +346,6 @@ jobs:
   - aggregate:
     - get: pcf-pipelines
     - get: rootfs-image
-    - get: pivnet-opsmgr
       passed: [upload-ert]
       trigger: true
       params: {globs: []}
@@ -495,8 +490,7 @@ jobs:
   plan:
   - aggregate:
     - get: pcf-pipelines
-    - get: rootfs-image
-    - get: pivnet-opsmgr
+    - get: rootfs-image    
       passed: [configure-ert]
       trigger: true
       params: {globs: []}

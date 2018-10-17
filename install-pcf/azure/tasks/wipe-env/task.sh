@@ -32,7 +32,6 @@ function delete-infrastructure() {
   echo "Executing Terraform Destroy ...."
   echo "=============================================================================================="
 
-  #terraform init "pcf-pipelines/install-pcf/azure/terraform/${AZURE_PCF_TERRAFORM_TEMPLATE}"
   terraform init -backend=true -backend-config="storage_account_name=${TERRAFORM_AZURE_STORAGE_ACCOUNT_NAME}" -backend-config="container_name=${TERRAFORM_AZURE_STORAGE_CONTAINER_NAME}" -backend-config="key=${TERRAFORM_AZURE_STATEFILE_NAME}" -backend-config="access_key=${TERRAFORM_AZURE_STORAGE_ACCESS_KEY}" "pcf-pipelines/install-pcf/azure/terraform/${AZURE_PCF_TERRAFORM_TEMPLATE}"
 
   terraform destroy -force \
@@ -48,9 +47,8 @@ function delete-infrastructure() {
     -var "azure_terraform_subnet_ert_cidr=dontcare" \
     -var "azure_terraform_subnet_services1_cidr=dontcare" \
     -var "azure_terraform_subnet_dynamic_services_cidr=dontcare" \
-	-var "terraform_azure_storage_container_name=dontcare" \
-  	-var "terraform_azure_storage_access_key=dontcare" \
-	-var "terraform_azure_storage_account_name=dontcare" \
+    -var "terraform_azure_storage_access_key=dontcare" \
+    -var "terraform_azure_storage_account_name=dontcare" \
     -var "ert_subnet_id=dontcare" \
     -var "pcf_ert_domain=dontcare" \
     -var "system_domain=dontcare" \

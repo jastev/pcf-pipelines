@@ -48,7 +48,6 @@ echo "==========================================================================
 echo "Executing Terraform Plan ..."
 echo "=============================================================================================="
 
-
 terraform init -backend=true -backend-config="storage_account_name=${TERRAFORM_AZURE_STORAGE_ACCOUNT_NAME}" -backend-config="container_name=${TERRAFORM_AZURE_STORAGE_CONTAINER_NAME}" -backend-config="key=${TERRAFORM_AZURE_STATEFILE_NAME}" -backend-config="access_key=${TERRAFORM_AZURE_STORAGE_ACCESS_KEY}" "pcf-pipelines/install-pcf/azure/terraform/${AZURE_PCF_TERRAFORM_TEMPLATE}"
 
 terraform plan \
@@ -76,7 +75,7 @@ terraform plan \
   -var "azure_multi_resgroup_network=${AZURE_MULTI_RESGROUP_NETWORK}" \
   -var "azure_multi_resgroup_pcf=${AZURE_MULTI_RESGROUP_PCF}" \
   -var "azure_opsman_priv_ip=${AZURE_TERRAFORM_OPSMAN_PRIV_IP}" \
-  -var "azure_ert_storage_account_name"=${AZURE_ERT_STORAGE_ACCOUNT_NAME} \
+  -var "azure_storage_account_name"=${AZURE_STORAGE_ACCOUNT_NAME} \
   -var "terraform_azure_storage_account_name"=${TERRAFORM_AZURE_STORAGE_ACCOUNT_NAME} \
   -var "azure_buildpacks_container=${AZURE_BUILDPACKS_CONTAINER}" \
   -var "azure_droplets_container=${AZURE_DROPLETS_CONTAINER}" \

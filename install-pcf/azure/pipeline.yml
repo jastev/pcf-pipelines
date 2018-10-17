@@ -83,12 +83,12 @@ jobs:
 
   - task: check-terraform-state
     image: rootfs-image
-    privileged: true
     file: pcf-pipelines/install-pcf/azure/tasks/check-terraform-state/task.yml
     params:
       TERRAFORM_AZURE_STORAGE_ACCOUNT_NAME: {{terraform_azure_storage_account_name}}
       TERRAFORM_AZURE_STORAGE_ACCESS_KEY: {{terraform_azure_storage_access_key}}
       TERRAFORM_AZURE_STORAGE_CONTAINER_NAME: {{terraform_azure_storage_container_name}}
+      TERRAFORM_AZURE_STATEFILE_NAME: {{terraform_azure_statefile_name}}
 
 #####################
 ## Job - Wipe Env  ##
